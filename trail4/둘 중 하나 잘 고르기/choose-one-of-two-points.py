@@ -16,4 +16,4 @@ for i in range(1, 2*n):
     dp[i][0]=dp[i-1][0]+blue[i]
     for j in range(1,n+1):
         dp[i][j]=max((dp[i-1][j-1]+red[i]), dp[i-1][j]+blue[i])
-print(max(d[n] for d in dp))
+print(dp[-1][n])
