@@ -22,15 +22,20 @@ for i in range(n+1):
     for j in range(-m+offset, m+offset+1):
         dp[i][j] = INT_MIN
 dp[0][offset] = 0
-for i in range(n):
+for i in range(1,n+1):
     for j in range(-m+offset, m+offset):
-        if dp[i][j] != INT_MIN:
-            if (j+arr[i])<=(m+offset):
-                if dp[i+1][j+arr[i]] < (dp[i][j]+arr[i]):
-                    dp[i+1][j+arr[i]]=dp[i][j]+arr[i]
-            if (j-arr[i]) >= 0:
-                if dp[i+1][j-arr[i]] < dp[i][j]:
-                    dp[i+1][j-arr[i]]=dp[i][j]
-            if dp[i+1][j] < dp[i][j]:
-                dp[i+1][j]=dp[i][j]
+        # C에 더한 경우
+        a=dp[i-1][j]
+        # A에 더한 경우
+        if (j-arr[i-1])>=0:
+            b=dp[i-1][j-arr[i-1]]
+        else:
+            b=INT_MIN
+        # B에 더한 경우
+        if (j+arr[i-1])<=(m+offset):
+            c=dp[i-1][j+arr[i-1]]
+        else:
+            c=INT_MIN
+        # A에 더한 경우만 추가해서
+        dp[i][j] = max([a,b+arr[i-1],c])
 print(dp[-1][offset])
