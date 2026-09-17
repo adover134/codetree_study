@@ -13,8 +13,8 @@ b = input()
 # 시계 회전 시
 # i번만 1 감소한다.
 
-a = list(map(int, a[:N]))
-b = list(map(int, b[:N]))
+a = list(map(int, a))
+b = list(map(int, b))
 
 # i번 하위 원판까지를
 # 목표로 맞추기까지의 최소 횟수?
