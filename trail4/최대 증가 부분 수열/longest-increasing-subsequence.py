@@ -8,12 +8,11 @@ m = list(map(int, input().split()))
 # i번 숫자 기준으로
 # 이전 숫자가 j일 때
 # 최대 개수를 구한다.
-dp = [1 for _ in range(n+1)]
-dp[1] = 1
-for i in range(1, n+1):
-    maxi = 0
-    for j in range(1, i):
-        if m[j-1] < m[i-1]:
-            maxi = max(maxi, dp[j])
-    dp[i] = maxi + 1
+dp = [-1 for _ in range(max(m)+1)]
+dp[0] = 0
+for i in range(n):
+    a = m[i]
+    for j in range(a):
+        if (dp[j]+1) > dp[a]:
+            dp[a] = dp[j] + 1
 print(max(dp))
