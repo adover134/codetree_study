@@ -3,47 +3,25 @@ B = input()
 
 # Please write your code here.
 la, lb = len(A), len(B)
+A, B = [0]+list(A)[::-1], [0]+list(B)[::-1]
 from collections import deque
-dp = [[0 for i in range(lb+1)] for j in range(la+1)]
-visited = [[False for i in range(lb+1)] for j in range(la+1)]
-cnt = 0
-dq = deque([(0, 0)])
-f = False
-while dq and f == False:
-    for i in range(len(dq)):
-        a, b = dq.popleft()
-        if visited[a][b]:
-            continue
-        visited[a][b] = True
-        if a == la and b == lb:
-            f = True
-            break
-
-        aa, bb = a < la, b < lb
-        cur = dp[a][b]
-
-        if aa and (dp[a+1][b] <= cur):
-            dp[a+1][b] = dp[a][b]
-            dq.append((a+1, b))
-        if bb and (dp[a][b+1] <= cur):
-            dp[a][b+1] = dp[a][b]
-            dq.append((a, b+1))
-        if aa and bb and (dp[a+1][b+1] <= cur):
-            if A[a] == B[b]:
-                dp[a+1][b+1] = max(dp[a][b], dp[a+1][b+1])+1
-            else:
-                dp[a+1][b+1] = max(dp[a][b], dp[a+1][b+1])
-            dq.append((a+1, b+1))
+dp = [[0 for j in range(lb+1)] for i in range(la+1)]
+path = [[(0, 0) for j in range(lb+1)] for i in range(la+1)]
+for i in range(1, la+1):
+    for j in range(1, lb+1):
+        if dp[i-1][j] > dp[i][j]:
+            dp[i][j] = dp[i-1][j]
+            path[i][j] = (i-1, j)
+        if dp[i][j-1] > dp[i][j]:
+            dp[i][j] = dp[i][j-1]
+            path[i][j] = (i, j-1)
+        if dp[i-1][j-1] >= dp[i][j]:
+            if A[i] == B[j]:
+                dp[i][j] = dp[i-1][j-1] + 1
+            path[i][j] = (i-1, j-1)
 
 i, j = la, lb
-ans = ''
-while dp[i][j] > 0:
-    if dp[i-1][j-1] == (dp[i][j] - 1) and A[i-1]==B[j-1]:
-        ans = A[i-1]+ans
-        i -= 1
-        j -= 1
-    elif dp[i-1][j] == dp[i][j]:
-        i -= 1
-    else:
-        j -= 1
-print(ans)
+while i > 0 and j > 0:
+    if path[i][j] == (i-1, j-1) and A[i] == B[j]:
+        print(A[i], end='')
+    i, j = path[i][j]
