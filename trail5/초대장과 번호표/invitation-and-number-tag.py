@@ -17,8 +17,7 @@ while group:
     f = len(group)
     for _ in range(len(group)):
         g = group.popleft()
-        g -= found
-        if len(g) == 1:
+        if len(g-found) == 1:
             found = found.union(g)
             f = True
         else:
