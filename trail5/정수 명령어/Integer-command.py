@@ -16,9 +16,9 @@ for _ in range(T):
                 if len(ss) == 0:
                     continue
                 if val == 1:
-                    ss.remove(max(ss))
+                    ss.remove(ss[-1])
                 else:
-                    ss.remove(min(ss))
+                    ss.remove(ss[0])
     if len(ss) == 0:
         print('EMPTY')
     else:
