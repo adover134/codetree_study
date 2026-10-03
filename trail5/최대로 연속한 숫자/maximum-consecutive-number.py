@@ -2,18 +2,24 @@ n, m = map(int, input().split())
 nums = list(map(int, input().split()))
 
 # Please write your code here.
-# 길이, 시작, 끝
+# 길이
 # 지워진 수
-from sortedcontainers import SortedSet
-ss1 = SortedSet([-1, n + 1])
-ss2 = SortedSet([(-n - 1, -1, n + 1)])
-maxi = 0
+from sortedcontainers import SortedSet, SortedDict
+ss = SortedSet([-1, n+1])
+sm = SortedDict()
+sm[n+2] = 1
 for num in nums:
-    s = ss1[ss1.bisect_right(num) - 1]
-    e = ss1[ss1.bisect_right(num)]
-    ss1.add(num)
-    ss2.remove((-(e - s - 1), s, e))
-    ss2.add((-(num - s - 1), s, num))
-    ss2.add((-(e - num - 1), num, e))
-    print(-ss2[0][0])
-
+    s, e = ss[ss.bisect_left(num) - 1], ss[ss.bisect_left(num)]
+    ss.add(num)
+    sm[e-s] -= 1
+    if sm[e-s] == 0:
+        del sm[e-s]
+    if (num - s) in sm:
+        sm[num-s] += 1
+    else:
+        sm[num-s] = 1
+    if (e-num) in sm:
+        sm[e-num] += 1
+    else:
+        sm[e-num] = 1
+    print(max(sm) - 1)
