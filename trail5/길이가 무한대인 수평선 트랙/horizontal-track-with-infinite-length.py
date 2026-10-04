@@ -17,7 +17,7 @@ for _ in range(n):
 from sortedcontainers import SortedSet
 # 위치와 속도를 가진다.
 # 위치 순으로 먼저 정렬되어야 한다.
-sp = SortedSet([(-start[i], -speed[i]) for i in range(n)])
+sp = sorted([(-start[i], -speed[i]) for i in range(n)])
 # 위치가 더 작은데 속도도 더 작다면
 # 절대 못 만난다.
 # 즉, 더 앞쪽의 누군가보다 더 빠르다면
@@ -27,17 +27,15 @@ sp = SortedSet([(-start[i], -speed[i]) for i in range(n)])
 # 다음의 누군가가 자기보다 앞에 도착한다면 그 사람의 도착 예정 위치는 집합에 안 넣는다.
 
 # 더 멀리 있고, 더 빠른 사람부터 집합에 넣어야 한다.
-pos = SortedSet()
+pos = 1000000000+1000000000000000000
+ans = 0
 for i in range(len(sp)):
     s, v= sp[i]
-    if len(pos) == 0:
-        pos.add(s+(v*t))
+    r = -(s+(v * t))
+    if r >= pos:
+        continue
     else:
-        r = s+(v * t)
-        l = pos.bisect_left(r)
-        if l < len(pos) or pos[0] > r:
-            continue
-        else:
-            pos.add(r)
+        ans += 1
+        pos = r
 
-print(len(pos))
+print(ans)
