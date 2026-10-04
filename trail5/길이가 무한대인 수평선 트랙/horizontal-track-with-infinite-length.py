@@ -17,7 +17,7 @@ for _ in range(n):
 from sortedcontainers import SortedSet
 # 위치와 속도를 가진다.
 # 위치 순으로 먼저 정렬되어야 한다.
-sp = sorted([(-start[i], -speed[i]) for i in range(n)])
+sp = sorted([(-start[i], speed[i]) for i in range(n)])
 # 위치가 더 작은데 속도도 더 작다면
 # 절대 못 만난다.
 # 즉, 더 앞쪽의 누군가보다 더 빠르다면
@@ -31,7 +31,7 @@ pos = 1000000000+1000000000000000000
 ans = 0
 for i in range(len(sp)):
     s, v= sp[i]
-    r = -(s+(v * t))
+    r = -(s+(-v * t))
     if r >= pos:
         continue
     else:
