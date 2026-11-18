@@ -9,12 +9,16 @@ p = s // 2
 from collections import deque
 # 합, 다음 인덱스
 maxi = 0
-dp = {0}
+dp = [False for _ in range(p + 1)]
+dp[0] = True
 for i in range(n):
-    t = set()
-    for d in dp:
-        if (d + arr[i]) <= p:
-            t.add(d + arr[i])
-    dp = dp.union(t)
-t = max(dp)
-print(s - t * 2)
+    t = [False for _ in range(p + 1)]
+    for d in range(p + 1 - arr[i]):
+        if dp[d]:
+            t[d + arr[i]] = True
+    for d in range(p + 1):
+        dp[d] |= t[d]
+for i in range(p, -1, -1):
+    if dp[i]:
+        print(s - i * 2)
+        exit(0)
